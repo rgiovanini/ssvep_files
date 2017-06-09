@@ -2,7 +2,7 @@
 def create_dataset(lista_canais, save_path):
     '''
     Cria um objeto do tipo dicionário contendo os canais de interesse do 
-    dataset, informados pelo usuário. 
+    dataset, informados pelo usuário na forma de lista. 
     O dict contém as seguintes keys: 
     'data': array de shape (n,7680), onde n = len(lista_canais).
     'target': array contendo as classes correspondentes a cada frequência

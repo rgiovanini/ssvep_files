@@ -1,0 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+Este é um arquivo de script temporário.
+"""
+
+import numpy as np
+from scipy.io import loadmat
+import matplotlib.pyplot as plt
+
+data = loadmat('/media/renato/Dados/Mestrado/SSVEP-Datasets/Kolodziej/dataset_kolodziej.mat')
