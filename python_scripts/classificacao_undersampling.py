@@ -10,23 +10,23 @@ import numpy as np
 from scipy.io import loadmat, savemat
 
 # carregando os canais de interesse dos arquivos .mat e gerando o array
-lista_canais = [0,3,4,9,10,11,12,13,14,15]
+lista_canais = [0, 3, 4, 9, 10, 11, 12, 13, 14, 15]
 n_canais = len(lista_canais)
-path = '/home/renato/Dropbox/Mestrado/programas_final/kolodziej_dataset/all_data/S{}_{}Hz.mat'
-data = [np.transpose(loadmat(path.format(i,j))['X'])[lista_canais] 
-            for j in range(5,9) for i in range(1,6)]
+path = '/home/renato/Dropbox/Mestrado/final/kolodziej_dataset/all_data/S{}_{}Hz.mat'
+data = [np.transpose(loadmat(path.format(i, j))['X'])[lista_canais]
+        for j in range(5, 9) for i in range(1, 6)]
 data = np.vstack(data)
 
-# criando o array de targets 
-target = [np.full(n_canais*5, i, dtype='int64') for i in range(5,9)]
+# criando o array de targets
+target = [np.full(n_canais * 5, i, dtype='int64') for i in range(5, 9)]
 target = np.hstack((target[0], target[1], target[2], target[3]))
 
-## salvando o dataset
-#dataset_dict = {'data': data,
+# salvando o dataset
+# dataset_dict = {'data': data,
 #                'target': target,
 #                'fs': 256.}
-#save_path = '/home/renato/Dropbox/Mestrado/programas_final/kolodziej_dataset/dataset_7_canais.mat'
-#savemat(save_path, dataset_dict)
+# save_path = '/home/renato/Dropbox/Mestrado/programas_final/kolodziej_dataset/dataset_7_canais.mat'
+# savemat(save_path, dataset_dict)
 
 # whitening dos dados de entrada (standardization)
 from sklearn.preprocessing import scale
@@ -37,17 +37,18 @@ data_scaled = np.array([scale(data[i]) for i in range(len(data))])
 
 import pywt
 
-# decompondo em sub-bandas usando a DWT e wavelet db12 e tomando apenas as aproximações
+# decompondo em sub-bandas usando a DWT e wavelet db12 e tomando
+# apenas as aproximações
 n_levels = 4
-data_scaled_dwt = [pywt.wavedec(data_scaled[i], pywt.Wavelet('db12'), 
-                                level=n_levels)[0] for i in range(len(data_scaled))]
+data_scaled_dwt = [pywt.wavedec(data_scaled[i], pywt.Wavelet('db12'),
+                   level=n_levels)[0] for i in range(len(data_scaled))]
 data_scaled_dwt = np.vstack(data_scaled_dwt)
 
-# treinamento do classificador 
+# treinamento do classificador
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-acc_list=[]
+acc_list = []
 
 # repetições de separação, treinamento e predição
 for i in range(10):
@@ -56,11 +57,11 @@ for i in range(10):
                                     n_jobs=-1, bootstrap=True,
                                     warm_start=0, oob_score=True)
     clf_RF.fit(data_scaled_dwt[train], target[train])
-    # predição 
+    # predição
     from sklearn.metrics import accuracy_score
-    
+
     preds_clw_RF = clf_RF.predict(data_scaled_dwt)
-    
+
     # teste de acurácia
     print("Wavelet transform features using RF: training accuracy={:.2%},"
           "test accuracy={:.2%}".format(
@@ -70,6 +71,3 @@ for i in range(10):
 
 print("mean test accuracy: {:.2%} ".format(np.mean(acc_list)))
 print("mean standard deviation: {:.2%} ".format(np.std(acc_list)))
-
-
-
