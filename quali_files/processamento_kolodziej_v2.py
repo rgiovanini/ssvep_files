@@ -44,7 +44,7 @@ def select_eeg_frequency(freq):
     '''
     array_freq = []
     array_eeg_freq = []
-    file_string = 'all_files/S{}_{}Hz.mat'
+    file_string = '/home/renato/Dropbox/Mestrado/final/quali_files/all_files/S{}_{}Hz.mat'
     for i in range(1, 6):
         for j in range(5, 9):
             formatted_string = file_string.format(i, j)
@@ -225,7 +225,3 @@ if __name__ == "__main__":
 
     test_array = Oz_period_filtered[1]
     positive, negative = test(test_array, 0.002)
-
-
-
-
