@@ -204,7 +204,7 @@ if __name__ == "__main__":
     # Estimate the PSD of the filtered signal
 
     # Subject b1:
-    filtered_period = np.array(sig.periodogram(filtered_signal, fs,
+    filtered_period = np.array(sig.(filtered_signal, fs,
                                                window='hamming', axis=1))
                                               '
     # Apply trigger method
@@ -222,6 +222,5 @@ if __name__ == "__main__":
 
     Oz_period_filtered = np.array(sig.periodogram(Oz_array_filtered, fs,
                                                   window='hamming', axis=3))
-
     test_array = Oz_period_filtered[1]
     positive, negative = test(test_array, 0.002)
