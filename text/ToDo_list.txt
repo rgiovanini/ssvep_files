@@ -1,0 +1,15 @@
+To Do list
+==========
+
+- descrição das funções 
+- organização final do repositório 
+- aplicação dos filtros aos sinais 
+- elaboração e avaliação dos seguintes modelos com os dois métodos de 
+extração de caracteristicas: 
+	* KNN
+	* Nayve Bayes
+	* Decision trees (RF)
+	* Support Vector Machines
+	* Neural Networks
+- Artigo utilizando o método do banco de filtros (ou o texto da quali)
+- escrita do texto
