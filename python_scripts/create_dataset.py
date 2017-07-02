@@ -36,4 +36,9 @@ def create_dataset(lista_canais, save_path):
                    'fs': 256.}
     return savemat(save_path, dataset_dict)
 
+if __name__ == "__main__":
     
+    lista_canais = range(16)
+    save_path = '/home/renato/Dropbox/Mestrado/final/kolodziej_dataset/dataset_15_canais.mat'
+    
+    create_dataset(lista_canais, save_path)
