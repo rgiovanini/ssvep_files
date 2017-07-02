@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+
 def design_butter_fir(cutoff, fs, order=101, band='pass', window='hamming'):
+    '''
+    FUNCTION DEFINITION
+    '''
     import numpy as np
     import scipy.signal as sig
 
@@ -23,19 +28,35 @@ def design_butter_fir(cutoff, fs, order=101, band='pass', window='hamming'):
 
 
 def generate_harmonics(freq, n_harmonics):
+    '''
+    FUNCTION DEFINITION
+    '''
     import numpy as np
+    
     harmonics = [(i * (j + 1)) for i in freq for j in range(n_harmonics)]
     harmonics = np.array(harmonics)
 
     return harmonics.reshape(len(freq), n_harmonics)
 
 
-def generate_band_tolerance(freq, tol):
+def generate_band_tolerance(freq, tolerance=0.3): #NEEDS FIXING TO CORRECT OUTPUT
+    '''
+    FUNCTION DEFINITION
+    '''
     import numpy as np
+    
     freq = np.array(freq)
-    f1 = freq + tol
-    f2 = freq - tol
-    freq_tol = [[f1[i][j], f2[i][j]] for i in range(len(f1[0])
-                                     for j in range(len(f2[0])))]
+    tol_array = np.hstack(np.array([[freq[i] - tolerance, freq[i] + tolerance]
+                                   for i in range(len(freq))]))
 
-    return np.array(freq_tol)
+    return tol_array
+
+def apply_fir_filter(coefficients, input_array, axis=-1):
+    '''
+    FUNCTION DEFINITION
+    '''
+    import scipy.signal as sig
+    
+    return sig.lfilter(coefficients, 1., input_array, axis=axis)
+
+
