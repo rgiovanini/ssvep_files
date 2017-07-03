@@ -10,7 +10,7 @@ import numpy as np
 from scipy.io import loadmat, savemat
 
 # carregando os canais de interesse dos arquivos .mat e gerando o array
-lista_canais = [0, 3, 4, 9, 10, 11, 12, 13, 14, 15]
+lista_canais = list(range(16))#[0, 3, 4, 9, 10, 11, 12, 13, 14, 15]
 n_canais = len(lista_canais)
 path = '/home/renato/Dropbox/Mestrado/final/kolodziej_dataset/all_data/S{}_{}Hz.mat'
 data = [np.transpose(loadmat(path.format(i, j))['X'])[lista_canais]
