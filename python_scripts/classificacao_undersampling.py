@@ -51,9 +51,10 @@ from sklearn.model_selection import train_test_split
 acc_list = []
 
 # repetições de separação, treinamento e predição
-for i in range(10):
-    train, test = train_test_split(np.arange(len(target)), test_size=0.8)
-    clf_RF = RandomForestClassifier(n_estimators=1500, max_features='auto',
+for i in range(20):
+    train, test = train_test_split(np.arange(len(target)), test_size=0.33)
+    
+    clf_RF = RandomForestClassifier(n_estimators=100, max_features='auto',
                                     n_jobs=-1, bootstrap=True,
                                     warm_start=0, oob_score=True)
     clf_RF.fit(data_scaled_dwt[train], target[train])

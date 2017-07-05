@@ -49,33 +49,28 @@ def random_forest_classifier(data, target, test_size=0.5, n_estimators=500, n_tr
     return clf_RF, train_scores, test_scores, data_to_cv, target_to_cv
 
 
-def cross_validation(estimator, data, target, n_folds=6, n_trials=10):
-    '''
-    FUNCTION DESCRIPTION
-    '''
-    import numpy as np
-    from sklearn.model_selection import cross_val_score
-    
-    cv_list = []
-    for i in range(n_trials):
-       CV_score = cross_val_score(estimator, data, target, cv=6, n_jobs=-1)
-       cv_list.append(CV_score)
-       
-    return (np.mean(cv_list), np.std(cv_list))
-
-
 if __name__ == "__main__":
     
     import numpy as np
+    import cross_validation as cv
     
-    data = np.load("/home/renato/Dropbox/Mestrado/final/python_scripts/all_data.npy")
+    data = np.load("/home/renato/Dropbox/Mestrado/final/python_scripts/all_filtered_signal_dec100.npy")
     target = np.load("/home/renato/Dropbox/Mestrado/final/python_scripts/target.npy")
     
     # some usage example 
-    clf, train_sc, test_sc, data_sets, target_sets = random_forest_classifier(data=data,
-                                                                             target=target,
-                                                                             test_size=0.8, 
-                                                                             n_estimators=100)
-    
-    cv_score = cross_validation(estimator=clf, data=data_sets[0], target=target_sets[0])
-    
+    n_trials = 20
+    for i in range(4):  # para cada banco de filtros
+        clf, train_sc, test_sc, data_sets, target_sets = random_forest_classifier(data=data[i],
+                                                                                  target=target,
+                                                                                  test_size=0.33, 
+                                                                                  n_trials=n_trials,
+                                                                                  n_estimators=100)
+        
+        cv_score = cv.cross_validationcross_validation(estimator=clf, data=data_sets, 
+                                    target=target_sets, n_trials=n_trials)
+        
+        print("Results for n_trials = ", n_trials)
+        print("Train accuracy: {:.2%} +/- {:.2%}".format(train_sc[0], train_sc[1]))
+        print("Test accuracy: {:.2%} +/- {:.2%}".format(test_sc[0], test_sc[1]))
+        print("cross validation score: {:.2%} +/- {:.2%}".format(cv_score[0], cv_score[1])) 
+        print("--------------------------------------------")

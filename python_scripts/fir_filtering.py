@@ -32,7 +32,7 @@ filter_pack = np.array([filt.design_butter_fir(cutoff=i, fs=fs, order=401)
                                 for i in bands])
 
 ############################################################################    
-# AQUI CABE UMA DECIMAÇÃO ANTES DE APLICAR
+# AQUI CABE UMA DECIMAÇÃO ANTES DE APLICAR (estou fazendo online)
 ############################################################################
 
 # applying all the instances to all filters
